@@ -18,6 +18,14 @@ add_action( 'wp_enqueue_scripts', 'genesis_sample_css' );
  * @since 2.2.3
  */
 function genesis_sample_css() {
+	$font_size = esc_html( get_theme_mod( 'font_size' ) )."px";
+	$h1_font_size = esc_html( get_theme_mod( 'h1_font_size' ) )."px";
+	$h2_font_size = esc_html( get_theme_mod( 'h2_font_size' ) )."px";
+	$h3_font_size = esc_html( get_theme_mod( 'h3_font_size' ) )."px";
+	$h4_font_size = esc_html( get_theme_mod( 'h4_font_size' ) )."px";
+	$h5_font_size = esc_html( get_theme_mod( 'h5_font_size' ) )."px";
+	$h6_font_size = esc_html( get_theme_mod( 'h6_font_size' ) )."px";
+	// echo($font_size);
 	// Fonts.
 $headings_font = esc_html( get_theme_mod( 'custom_headings_font' ) );
 $body_font     = esc_html( get_theme_mod( 'custom_body_font' ) );
@@ -148,6 +156,42 @@ $body_font     = esc_html( get_theme_mod( 'custom_body_font' ) );
 		',
 		$logo_padding + 5
 	) : '';
+
+	if ( $font_size ) {
+		$font_pieces = explode( ':', $font_size );
+	
+		$css .= "body, button, input, select, textarea { font-size: {$font_pieces[0]}; }";
+	}
+	if ( $h1_font_size ) {
+		$h1_font = explode( ':', $h1_font_size );
+	
+		$css .= "h1 { font-size: {$h1_font[0]}; }";
+	}
+	if ( $h2_font_size ) {
+		$h2_font = explode( ':', $h2_font_size );
+	
+		$css .= "h2 { font-size: {$h2_font[0]}; }";
+	}
+	if ( $h3_font_size ) {
+		$h3_font = explode( ':', $h3_font_size );
+	
+		$css .= "h3 { font-size: {$h3_font[0]}; }";
+	}
+	if ( $h4_font_size ) {
+		$h4_font = explode( ':', $h4_font_size );
+	
+		$css .= "h4 { font-size: {$h4_font[0]}; }";
+	}
+	if ( $h5_font_size ) {
+		$h5_font = explode( ':', $h5_font_size );
+	
+		$css .= "h5 { font-size: {$h5_font[0]}; }";
+	}
+	if ( $h6_font_size ) {
+		$h6_font = explode( ':', $h6_font_size );
+	
+		$css .= "h6 { font-size: {$h6_font[0]}; }";
+	}
 	if ( $headings_font ) {
 		$font_pieces = explode( ':', $headings_font );
 	

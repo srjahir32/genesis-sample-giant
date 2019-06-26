@@ -3,7 +3,7 @@ Template Name: Grid_blog
 */ 
 ?>
 
-<div class="grid_blog_full_width">
+<div class="">
 <?php // Display blog posts on any page @ https://m0n.co/l
     $temp = $wp_query; $wp_query= null;
     $wp_query = new WP_Query(); $wp_query->query('posts_per_page=6' . '&paged='.$paged);
@@ -23,6 +23,17 @@ function be_archive_post_class( $classes ) {
 }
 add_filter( 'post_class', 'be_archive_post_class' );
 
+
+
+
+//* Add custom body class to the head
+add_filter( 'body_class', 'sp_body_class' );
+function sp_body_class( $classes ) {
+	
+	$classes[] = 'grid_blog_full_width';
+	return $classes;
+	
+}
 
 //* Customize read more text
 add_filter( 'excerpt_more', 'genesis_read_more_link' );

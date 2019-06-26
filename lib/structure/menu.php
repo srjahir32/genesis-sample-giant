@@ -168,3 +168,10 @@ function genesis_nav_right( $menu, stdClass $args ) {
 	return $menu;
 
 }
+echo'
+
+<div class="nav-primary">';
+wp_nav_menu( array( 'theme_location' => 'third-menu', 'container_class' => 'genesis-nav-menu' ) );
+echo'</div>
+
+';

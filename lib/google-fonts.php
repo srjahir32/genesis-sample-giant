@@ -6,7 +6,7 @@ return array(
     'Open Sans:400italic,700italic,400,700'        => 'Open Sans',
     'Oswald:400,700'                               => 'Oswald',
     'Playfair Display:400,700,400italic'           => 'Playfair Display',
-    'Montserrat:400,700'                           => 'Montserrat',
+    'Montserrat:400,500,600,700,800' => 'Montserrat',
     'Raleway:400,700'                              => 'Raleway',
     'Droid Sans:400,700'                           => 'Droid Sans',
     'Lato:400,700,400italic,700italic'             => 'Lato',
