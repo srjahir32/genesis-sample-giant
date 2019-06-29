@@ -81,22 +81,93 @@ add_action('wp_enqueue_scripts', 'genesis_sample_enqueue_scripts_styles');
  * @since 1.0.0
  */
 function genesis_sample_enqueue_scripts_styles()
-{
+{ 
+    $body_font     = esc_html(get_theme_mod('body_font'));
+    $headings_font = esc_html( get_theme_mod( 'custom_headings_font' ) );
+    $header_site_title_font = esc_html(get_theme_mod('header_site_title_font'));
+    $header_site_description_font  = esc_html(get_theme_mod('header_site_description_font'));
+    $navigation_font  = esc_html(get_theme_mod('navigation_font'));
+    $button_font  = esc_html(get_theme_mod('button_font'));
+    $h1_font  = esc_html(get_theme_mod('h1_font'));
+    $h2_font  = esc_html(get_theme_mod('h2_font'));
+    $h3_font  = esc_html(get_theme_mod('h3_font'));
+    $h4_font  = esc_html(get_theme_mod('h4_font'));
+    $h6_font  = esc_html(get_theme_mod('h6_font'));
+    $footer_widget_font  = esc_html(get_theme_mod('footer_widget_font'));
+    $footer_font  = esc_html(get_theme_mod('footer_font'));
     
-    $headings_font = esc_html(get_theme_mod('custom_headings_font'));
-    $body_font     = esc_html(get_theme_mod('custom_body_font'));
-    
-    if ($headings_font) {
-        wp_enqueue_style('custom-headings-fonts', '//fonts.googleapis.com/css?family=' . $headings_font);
-    } else {
-        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
-    }
     
     if ($body_font) {
         wp_enqueue_style('custom-body-fonts', '//fonts.googleapis.com/css?family=' . $body_font);
     } else {
         wp_enqueue_style('custom-source-body', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,700');
     }
+    if ($headings_font) {
+        wp_enqueue_style('headings_font', '//fonts.googleapis.com/css?family=' . $headings_font);
+    } else {
+        wp_enqueue_style('custom-source-heading', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,700');
+    }
+    if ($header_site_title_font) {
+        wp_enqueue_style('header_site_title_font', '//fonts.googleapis.com/css?family=' . $header_site_title_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($header_site_description_font) {
+        wp_enqueue_style('header_site_description_font', '//fonts.googleapis.com/css?family=' . $header_site_description_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($navigation_font) {
+        wp_enqueue_style('navigation_font', '//fonts.googleapis.com/css?family=' . $navigation_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($button_font) {
+        wp_enqueue_style('button_font', '//fonts.googleapis.com/css?family=' . $button_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h1_font) {
+        wp_enqueue_style('h1_font', '//fonts.googleapis.com/css?family=' . $h1_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h2_font) {
+        wp_enqueue_style('h2_font', '//fonts.googleapis.com/css?family=' . $h2_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h3_font) {
+        wp_enqueue_style('h3_font', '//fonts.googleapis.com/css?family=' . $h3_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h4_font) {
+        wp_enqueue_style('h4_font', '//fonts.googleapis.com/css?family=' . $h4_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h5_font) {
+        wp_enqueue_style('h5_font', '//fonts.googleapis.com/css?family=' . $h5_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($h6_font) {
+        wp_enqueue_style('h6_font', '//fonts.googleapis.com/css?family=' . $h6_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($footer_widget_font) {
+        wp_enqueue_style('footer_widget_font', '//fonts.googleapis.com/css?family=' . $footer_widget_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    if ($footer_font) {
+        wp_enqueue_style('footer_font', '//fonts.googleapis.com/css?family=' . $footer_font);
+    } else {
+        wp_enqueue_style('custom-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,700');
+    }
+    
     
     wp_enqueue_style('dashicons');
     

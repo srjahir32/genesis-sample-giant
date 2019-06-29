@@ -70,6 +70,6 @@ genesis_markup(
 // 		echo '<img src="' . $fimg . '" alt="" />';
 // 		echo '</div>';
 	
-
 ?>
+
 </html>

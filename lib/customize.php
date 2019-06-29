@@ -10,23 +10,41 @@
  * @link    https://www.studiopress.com/
  */
 ?>
-<!-- <style>
-.range-slider-area .range-slider {
-  width: 68% !important;
-  height: 12px;
-}
 
-.range-slider-area .range-text {
-    width: 15% !important;    
-}
-
-.range-slider-area .range-value {
-  width: 12% !important;
-  font-size: 14px;
-}
-
- </style> -->
  <?php
+ 
+/**
+ * This function adds some styles to the WordPress Customizer
+ */
+function my_customizer_styles() { ?>
+	<style>
+        .range-slider-area .range-slider {
+            width: 68% !important;
+            height: 12px;
+        }
+
+        .range-slider-area .range-text {
+            width: 15% !important;    
+        }
+
+        .range-slider-area .range-value {
+            width: 13% !important;
+            text-align: center;
+        }
+        p.customizer_desc {
+            font-size: 13px;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+    </style>
+<?php
+
+}
+add_action( 'customize_controls_print_styles', 'my_customizer_styles', 999 );
+
+
+
 $custom_google_fonts = require_once __DIR__ . '/google-fonts.php';
 
 if (class_exists('WP_Customize_Control')) {
@@ -51,32 +69,26 @@ if (class_exists('WP_Customize_Control')) {
         
         public function render_content()
         {
-?>
+    ?>
 
 
         <label>
             <span class="customize-control-title"><?php
-            echo esc_html($this->label);
-?></span>
-        <div class="range-slider-area">
-                  <input class='range-slider' id="slider" min="<?php
-            echo $this->min;
-?>" max="<?php
-            echo $this->max;
-?>" step="<?php
-            echo $this->step;
-?>" type='range' <?php
-            $this->link();
-?> value="<?php
-            echo esc_attr($this->value());
-?>" oninput="jQuery(this).next('input').val( jQuery(this).val() )">
-            <input class="range-text" onKeyUp="jQuery(this).prev('input').val( jQuery(this).val() )" type='text' <?php
-            $this->link();
-?> value='<?php
-            echo esc_attr($this->value());
-?>'>
-            <input class="range-value" type="text" placeholder="px" disabled>
-        </div>
+            echo esc_html($this->label);?>
+           <p class='customizer_desc'><?php echo "".esc_html($this->description);?></p>
+            </span>
+            <div class="range-slider-area">
+                    <input class='range-slider' id="slider" min="<?php
+                echo $this->min; ?>" max="<?php
+                echo $this->max;?>" step="<?php
+                echo $this->step;?>" type='range' <?php
+                $this->link();?> value="<?php
+                echo esc_attr($this->value());?>" oninput="jQuery(this).next('input').val( jQuery(this).val() )">
+                <input class="range-text" onKeyUp="jQuery(this).prev('input').val( jQuery(this).val() )" type='text' <?php
+                $this->link();?> value='<?php
+                echo esc_attr($this->value());?>'>
+                <input class="range-value" type="text" placeholder="px" disabled>
+            </div>
         </label>
         <?php
         }
@@ -158,270 +170,1006 @@ function theme_footer_customizer($wp_customize)
     
 }
 
-// add fonts panel
+
+//-------------------- add Typography panel--------------------
 add_action('customize_register', 'fonts_panel');
-function fonts_panel($wp_customize)
-{
+function fonts_panel($wp_customize){
+
     global $custom_google_fonts;
-    
-    $wp_customize->add_section('custom_google_fonts_section', array(
-        'title' => __('Fonts', 'genesis-sample'),
+    $wp_customize->add_panel('font_panels', array(
+        'title' => 'Typography',
         'priority' => 24
     ));
-    // Heading Font.
-    $wp_customize->add_setting('custom_headings_font', array(
+     
+    //********** body font section start**********
+    $wp_customize->add_section('body_fonts_sec', array(
+        'title' => 'Body ',
+        'panel' => 'font_panels'
+    ));
+    
+    // body font-family
+    $wp_customize->add_setting('body_font', array(
         'sanitize_callback' => 'custom_sanitize_fonts'
     ));
     
-    $wp_customize->add_control('custom_headings_font', array(
-        'type' => 'select',
-        'description' => __('Select your desired font for the headings.', 'genesis-sample'),
-        'label' => __('Heading font family'),
-        'section' => 'custom_google_fonts_section',
-        'choices' => $custom_google_fonts
-    ));
-    
-    
-    // Body Font.
-    $wp_customize->add_setting('custom_body_font', array(
-        'sanitize_callback' => 'custom_sanitize_fonts'
-    ));
-    
-    $wp_customize->add_control('custom_body_font', array(
+    $wp_customize->add_control('body_font', array(
         'type' => 'select',
         'description' => __('Select your desired font for the body.', 'genesis-sample'),
-        'section' => 'custom_google_fonts_section',
-        'label' => __('Body font family'),
+        'section' => 'body_fonts_sec',
+        'label' => __('Font family'),
         'choices' => $custom_google_fonts
     ));
+
     //  body font size
-    $wp_customize->add_setting('font_size', array(
+    $wp_customize->add_setting('body_font_size', array(
         'capability' => 'edit_theme_options',
-        'default' => '',
+        'default' => '16',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
-    $wp_customize->add_control('font_size', array(
-        'type' => 'text',
-        'section' => 'custom_google_fonts_section', // Add a default or your own section
-        'label' => __('Body font size'),
-        'description' => __('font size change in website all content')
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'body_font_size', array(
+        'label' => 'Font size',
+        'min' => 8,
+        'max' => 30,
+        'step' => 1,
+        'section' => 'body_fonts_sec'
+    )));
+
+    // body line height
+    $wp_customize->add_setting('body_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '26',
+        'sanitize_callback' => 'sanitize_text_field'
     ));
     
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'body_line_height', array(
+        'label' => 'Line height',
+        'min' => 10,
+        'max' => 36,
+        'step' => 1,
+        'section' => 'body_fonts_sec'
+    )));
+
+    // body Paragraph margin
+    $wp_customize->add_setting('body_p_margin', array(
+        'capability' => 'edit_theme_options',
+        'default' => '15',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
     
-    //  H1 font size
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'body_p_margin', array(
+        'label' => 'Paragraph Margin',
+        'min' => 0,
+        'max' => 50,
+        'step' => 1,
+        'section' => 'body_fonts_sec'
+    )));
+
+    
+    //********** header font section start**********
+    $wp_customize->add_section('header_fonts_sec', array(
+        'title' => 'Header ',
+        'panel' => 'font_panels'
+    ));
+    
+    // header  Site Title font-family
+    $wp_customize->add_setting('header_site_title_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('header_site_title_font', array(
+        'type' => 'select',
+        'section' => 'header_fonts_sec',
+        'label' => __('Site Title (font family)'),
+        'choices' => $custom_google_fonts
+    ));
+
+    //  header  Site Title font size
+    $wp_customize->add_setting('header_site_title_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '40',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_title_font_size', array(
+        'label' => 'Site Title (font size)',
+        'min' => 8,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // header  Site Title line height
+    $wp_customize->add_setting('header_site_title_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '46',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_title_line_height', array(
+        'label' => 'Site Title (line height)',
+        'min' => 10,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // footer widget margin
+    $wp_customize->add_setting('header_site_title_margin', array(
+        'capability' => 'edit_theme_options',
+        'default' => '0',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_title_margin', array(
+        'label' => 'Site Title Margin',
+        'min' => 0,
+        'max' => 50,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // header site title text transform
+    $wp_customize->add_setting('header_site_title_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'header_site_title_text_transform', 
+        array(
+        'label' => 'Site Title (text transform)', 
+        'settings' => 'header_site_title_text_transform',         
+        'section' => 'header_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // header  Site Description font-family
+    $wp_customize->add_setting('header_site_description_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('header_site_description_font', array(
+        'type' => 'select',
+        'section' => 'header_fonts_sec',
+        'label' => __('Site Description (font family)'),
+        'choices' => $custom_google_fonts
+    ));
+
+    //  header  Site Description font size
+    $wp_customize->add_setting('header_site_description_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '14',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_description_font_size', array(
+        'label' => 'Site Description (font size)',
+        'min' => 8,
+        'max' => 30,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // header  Site Description line height
+    $wp_customize->add_setting('header_site_description_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_description_line_height', array(
+        'label' => 'Site Description (line height)',
+        'min' => 5,
+        'max' => 40,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // header Site Description margin
+    $wp_customize->add_setting('header_site_description_margin', array(
+        'capability' => 'edit_theme_options',
+        'default' => '0',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'header_site_description_margin', array(
+        'label' => 'Site Description (margin)',
+        'min' => 0,
+        'max' => 50,
+        'step' => 1,
+        'section' => 'header_fonts_sec'
+    )));
+
+    // header site title text transform
+    $wp_customize->add_setting('header_site_description_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'header_site_description_text_transform', 
+        array(
+        'label' => 'Site Description (text transform)', 
+        'settings' => 'header_site_description_text_transform',         
+        'section' => 'header_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+    //********** navigation font section start**********
+    $wp_customize->add_section('navigation_fonts_sec', array(
+        'title' => 'Navigation ',
+        'panel' => 'font_panels'
+    ));
+    // navigation font-family
+    $wp_customize->add_setting('navigation_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('navigation_font', array(
+        'type' => 'select',
+        'section' => 'navigation_fonts_sec',
+        'label' => __('Font Family'),
+        'choices' => $custom_google_fonts
+    ));
+    //  navigation font size
+    $wp_customize->add_setting('navigation_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '17',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'navigation_font_size', array(
+        'label' => 'Font Size',
+        'min' => 8,
+        'max' => 30,
+        'step' => 1,
+        'section' => 'navigation_fonts_sec'
+    )));
+
+     // navigation line height
+     $wp_customize->add_setting('navigation_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '22',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'navigation_line_height', array(
+        'label' => 'line Height',
+        'min' => 10,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'navigation_fonts_sec'
+    )));
+
+    // navigation text transform
+    $wp_customize->add_setting('navigation_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'navigation_text_transform', 
+        array(
+        'label' => 'Text Transform', 
+        'settings' => 'navigation_text_transform',         
+        'section' => 'navigation_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+    //********** navigation font section end**********
+
+    //********** button font section start**********
+    $wp_customize->add_section('button_fonts_sec', array(
+        'title' => 'Button ',
+        'panel' => 'font_panels'
+    ));
+    // button font-family
+    $wp_customize->add_setting('button_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('button_font', array(
+        'type' => 'select',
+        'section' => 'button_fonts_sec',
+        'label' => __('Font family'),
+        'choices' => $custom_google_fonts
+    ));
+    //  button font size
+    $wp_customize->add_setting('button_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '17',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'button_font_size', array(
+        'label' => 'Font size',
+        'min' => 8,
+        'max' => 30,
+        'step' => 1,
+        'section' => 'button_fonts_sec'
+    )));
+
+     // button line height
+     $wp_customize->add_setting('button_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '22',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'button_line_height', array(
+        'label' => 'Line height',
+        'min' => 10,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'button_fonts_sec'
+    )));
+
+    // button text transform
+    $wp_customize->add_setting('button_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'button_text_transform', 
+        array(
+        'label' => 'Text transform', 
+        'settings' => 'button_text_transform',         
+        'section' => 'button_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+    //********** button font section end**********
+
+    //********** heading font section start**********
+    $wp_customize->add_section('headings_fonts_sec', array(
+        'title' => 'Headings ',
+        'panel' => 'font_panels'
+    ));
+    // h1 font-family
+    $wp_customize->add_setting('h1_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('h1_font', array(
+        'label' => 'Heading 1 (H1)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h1 font size
     $wp_customize->add_setting('h1_font_size', array(
         'capability' => 'edit_theme_options',
         'default' => '48',
         'sanitize_callback' => 'sanitize_text_field'
+        
     ));
     
-    // $wp_customize->add_control( 'h1_font_size', array(
-    //   'type' => 'text',
-    //   'section' => 'custom_google_fonts_section', // Add a default or your own section
-    //   'label' => __( 'H1 font size' ),
-    //   'description' => __( 'font size change in H1 heading' ),
-    // ) );
-    
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h1_font_size', array(
-        'label' => 'H1 font size',
-        'min' => 10,
+        'description' => 'Font size',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    // H1 line height
-    $wp_customize->add_setting('h1_line_height', array(
+
+     // h1 line height
+     $wp_customize->add_setting('h1_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '52',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h1_line_height', array(
-        'label' => 'H1 line height',
-        'min' => 10,
+        'description' => 'Line height',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    
-    // H1 margin bottom
+    // h1 margin bottom
     $wp_customize->add_setting('h1_margin_bottom', array(
         'capability' => 'edit_theme_options',
-        'default' => '20'
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
     ));
     
-    $wp_customize->add_control('h1_margin_bottom', array(
-        'label' => 'H1 margin bottom',
-        'type' => 'text',
-        'section' => 'custom_google_fonts_section'
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h1_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+    // h1 text transform
+    $wp_customize->add_setting('h1_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h1_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h1_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // h2 font-family
+    $wp_customize->add_setting('h2_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('h2_font', array(
+        'label' => 'Heading 2 (H2)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h2 font size
+    $wp_customize->add_setting('h2_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '48',
+        'sanitize_callback' => 'sanitize_text_field'
         
     ));
     
-    // $wp_customize->add_control( 'posts_number_home', array(
-    //   'section'  => 'mytheme_options',
-    //   'settings' => 'posts_number_home',
-    //   'type' => 'text',
-    //   'priority' => 10,
-    // ) 
-    // ));
-    
-    //  H2 font size
-    $wp_customize->add_setting('h2_font_size', array(
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h2_font_size', array(
+        'description' => 'Font size',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+
+     // h2 line height
+     $wp_customize->add_setting('h2_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '40',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
-    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h2_font_size', array(
-        'label' => 'H2 font size',
-        'min' => 10,
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h2_line_height', array(
+        'description' => 'Line height',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    // H2 line height
-    $wp_customize->add_setting('h2_line_height', array(
+    // h2 margin bottom
+    $wp_customize->add_setting('h2_margin_bottom', array(
         'capability' => 'edit_theme_options',
-        'default' => '44',
+        'default' => '20',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
-    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h2_line_height', array(
-        'label' => 'H2 line height',
-        'min' => 10,
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h2_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
+    // h2 text transform
+    $wp_customize->add_setting('h2_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h2_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h2_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // h3 font-family
+    $wp_customize->add_setting('h3_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
     
-    //  H3 font size
+    $wp_customize->add_control('h3_font', array(
+        'label' => 'Heading 3 (H3)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h3 font size
     $wp_customize->add_setting('h3_font_size', array(
         'capability' => 'edit_theme_options',
         'default' => '34',
         'sanitize_callback' => 'sanitize_text_field'
+        
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h3_font_size', array(
-        'label' => 'H3 font size',
-        'min' => 10,
+        'description' => 'Font size',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    // H3 line height
-    $wp_customize->add_setting('h3_line_height', array(
+
+     // h3 line height
+     $wp_customize->add_setting('h3_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '38',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h3_line_height', array(
-        'label' => 'H3 line height',
-        'min' => 10,
+        'description' => 'Line height',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
+    // h3 margin bottom
+    $wp_customize->add_setting('h3_margin_bottom', array(
+        'capability' => 'edit_theme_options',
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
     
-    //  H4 font size
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h3_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+    // h3 text transform
+    $wp_customize->add_setting('h3_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h3_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h3_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // h4 font-family
+    $wp_customize->add_setting('h4_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('h4_font', array(
+        'label' => 'Heading 4 (H4)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h4 font size
     $wp_customize->add_setting('h4_font_size', array(
         'capability' => 'edit_theme_options',
         'default' => '30',
         'sanitize_callback' => 'sanitize_text_field'
+        
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h4_font_size', array(
-        'label' => 'H4 font size',
-        'min' => 10,
+        'description' => 'Font size',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    // H4 line height
-    $wp_customize->add_setting('h4_line_height', array(
+
+     // h4 line height
+     $wp_customize->add_setting('h4_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '34',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h4_line_height', array(
-        'label' => 'H4 line height',
-        'min' => 10,
+        'description' => 'Line height',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
+    // h4 margin bottom
+    $wp_customize->add_setting('h4_margin_bottom', array(
+        'capability' => 'edit_theme_options',
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
     
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h4_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+    // h4 text transform
+    $wp_customize->add_setting('h4_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h4_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h4_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // h5 font-family
+    $wp_customize->add_setting('h5_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
     
-    //  H5 font size
+    $wp_customize->add_control('h5_font', array(
+        'label' => 'Heading 5 (H5)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h5 font size
     $wp_customize->add_setting('h5_font_size', array(
         'capability' => 'edit_theme_options',
         'default' => '26',
         'sanitize_callback' => 'sanitize_text_field'
+        
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h5_font_size', array(
-        'label' => 'H5 font size',
-        'min' => 10,
+        'description' => 'Font size',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    // H5 line height
-    $wp_customize->add_setting('h5_line_height', array(
+
+     // h5 line height
+     $wp_customize->add_setting('h5_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '30',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h5_line_height', array(
-        'label' => 'H5 line height',
-        'min' => 10,
+        'description' => 'Line height',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
-    
-    //  H6 font size
-    $wp_customize->add_setting('h6_font_size', array(
+    // h5 margin bottom
+    $wp_customize->add_setting('h5_margin_bottom', array(
         'capability' => 'edit_theme_options',
         'default' => '20',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
-    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h6_font_size', array(
-        'label' => 'H6 font size',
-        'min' => 10,
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h5_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'headings_fonts_sec'
     )));
+    // h5 text transform
+    $wp_customize->add_setting('h5_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h5_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h5_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    // h6 font-family
+    $wp_customize->add_setting('h6_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
     
-    // H6 line height
-    $wp_customize->add_setting('h6_line_height', array(
+    $wp_customize->add_control('h6_font', array(
+        'label' => 'Heading 6 (H6)',
+        'type' => 'select',
+        'section' => 'headings_fonts_sec',
+        'description' => 'Font family',
+        'choices' => $custom_google_fonts
+    ));
+    //  h6 font size
+    $wp_customize->add_setting('h6_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
+        
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h6_font_size', array(
+        'description' => 'Font size',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+
+     // h6 line height
+     $wp_customize->add_setting('h6_line_height', array(
         'capability' => 'edit_theme_options',
         'default' => '24',
         'sanitize_callback' => 'sanitize_text_field'
     ));
     
     $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h6_line_height', array(
-        'label' => 'H6 line height',
+        'description' => 'Line height',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+    // h6 margin bottom
+    $wp_customize->add_setting('h6_margin_bottom', array(
+        'capability' => 'edit_theme_options',
+        'default' => '20',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'h6_margin_bottom', array(
+        'description' => 'Margin bottom',
+        'min' => 0,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'headings_fonts_sec'
+    )));
+    // h6 text transform
+    $wp_customize->add_setting('h6_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'h6_text_transform', 
+        array(
+        'description' => 'Text transform',
+        'settings' => 'h6_text_transform',         
+        'section' => 'headings_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+    //********** heading font section end**********
+
+    //********** footer_widget font section start**********
+    $wp_customize->add_section('footer_widget_fonts_sec', array(
+        'title' => 'Widget ',
+        'panel' => 'font_panels'
+    ));
+    
+    // footer widget font-family
+    $wp_customize->add_setting('footer_widget_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('footer_widget_font', array(
+        'type' => 'select',
+        'section' => 'footer_widget_fonts_sec',
+        'label' => __('Widget Title (font family)'),
+        'choices' => $custom_google_fonts
+    ));
+
+    //  footer widget font size
+    $wp_customize->add_setting('footer_widget_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '26',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'footer_widget_font_size', array(
+        'label' => 'Widget Title (font size)',
+        'min' => 8,
+        'max' => 100,
+        'step' => 1,
+        'section' => 'footer_widget_fonts_sec'
+    )));
+    // footer widget margin
+    $wp_customize->add_setting('footer_widget_margin', array(
+        'capability' => 'edit_theme_options',
+        'default' => '0',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'footer_widget_margin', array(
+        'label' => 'Widget Title (margin bottom)',
+        'min' => 0,
+        'max' => 50,
+        'step' => 1,
+        'section' => 'footer_widget_fonts_sec'
+    )));
+
+    // footer widget text transform
+    $wp_customize->add_setting('footer_widget_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'footer_widget_text_transform', 
+        array(
+        'label' => 'Widget Title (text transform)', 
+        'settings' => 'footer_widget_text_transform',         
+        'section' => 'footer_widget_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+
+    //  footer widget font size
+    // $wp_customize->add_setting('testing', array(
+    //     'capability' => 'edit_theme_options',
+    //     'default' => '17',
+    //     'sanitize_callback' => 'sanitize_text_field'
+    // ));
+    
+    // $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'testing', array(
+    //     'label' => 'Font size',
+    //     'min' => 8,
+    //     'max' => 30,
+    //     'step' => 1,
+    //     'section' => 'footer_widget_fonts_sec'
+    // )));
+    //********** footer_widget font section start**********
+
+
+    //********** footer font section start**********
+    $wp_customize->add_section('footer_fonts_sec', array(
+        'title' => 'Footer ',
+        'panel' => 'font_panels'
+    ));
+    // footer font-family
+    $wp_customize->add_setting('footer_font', array(
+        'sanitize_callback' => 'custom_sanitize_fonts'
+    ));
+    
+    $wp_customize->add_control('footer_font', array(
+        'type' => 'select',
+        'section' => 'footer_fonts_sec',
+        'label' => __('Font family'),
+        'choices' => $custom_google_fonts
+    ));
+    //  footer font size
+    $wp_customize->add_setting('footer_font_size', array(
+        'capability' => 'edit_theme_options',
+        'default' => '17',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'footer_font_size', array(
+        'label' => 'Font size',
+        'min' => 8,
+        'max' => 30,
+        'step' => 1,
+        'section' => 'footer_fonts_sec'
+    )));
+
+     // footer line height
+     $wp_customize->add_setting('footer_line_height', array(
+        'capability' => 'edit_theme_options',
+        'default' => '22',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Range($wp_customize, 'footer_line_height', array(
+        'label' => 'Line height',
         'min' => 10,
         'max' => 100,
         'step' => 1,
-        'section' => 'custom_google_fonts_section'
+        'section' => 'footer_fonts_sec'
     )));
-    
-}
 
-// add color panel
+    // footer text transform
+    $wp_customize->add_setting('footer_text_transform', array(
+        'default' => 'none', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+    ));
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'footer_text_transform', 
+        array(
+        'label' => 'Text transform', 
+        'settings' => 'footer_text_transform',         
+        'section' => 'footer_fonts_sec', 
+        'type' => 'select',
+        'choices' => array(
+          'none' => __( 'none' ),
+          'capitalize' => __( 'capitalize' ),
+          'uppercase' => __( 'uppercase' ),
+          'lowercase' => __( 'lowercase' ),
+        )
+    )));
+    //********** footer font section end**********
+
+
+}
+//-------------------- Typography panel end -------------------
+
+
+//-------------------- add color panel-------------------
 add_action('customize_register', 'colors_panel');
 function colors_panel($wp_customize)
 {
@@ -548,7 +1296,7 @@ function colors_panel($wp_customize)
         'sanitize_callback' => 'sanitize_hex_color'
     ));
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_site_description', array(
-        'label' => __('Site Title Color', 'genesis-sample'),
+        'label' => __('Site Description Color', 'genesis-sample'),
         'section' => 'header_color_sec',
         'settings' => 'header_site_description'
     )));
@@ -625,66 +1373,7 @@ function colors_panel($wp_customize)
     // ************navigation color section end************
     
     
-    // ************header color section ************
-    
-    // header color section start
-    $wp_customize->add_section('header_color_sec', array(
-        'title' => 'Header ',
-        'panel' => 'some_panel'
-    ));
-    
-    // background color
-    $wp_customize->add_setting('header_background', array(
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_background', array(
-        'label' => __('Background Color', 'genesis-sample'),
-        'section' => 'header_color_sec',
-        'settings' => 'header_background'
-    )));
-    
-    // link color
-    $wp_customize->add_setting('header_link', array(
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_link', array(
-        'label' => __('Link Color', 'genesis-sample'),
-        'section' => 'header_color_sec',
-        'settings' => 'header_link'
-    )));
-    
-    // link hover color
-    $wp_customize->add_setting('header_link_hover', array(
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_link_hover', array(
-        'label' => __('Link Hover Color', 'genesis-sample'),
-        'section' => 'header_color_sec',
-        'settings' => 'header_link_hover'
-    )));
-    
-    // Site Title color
-    $wp_customize->add_setting('header_site_title', array(
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_site_title', array(
-        'label' => __('Site Title Color', 'genesis-sample'),
-        'section' => 'header_color_sec',
-        'settings' => 'header_site_title'
-    )));
-    
-    // Site Description color
-    $wp_customize->add_setting('header_site_description', array(
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'header_site_description', array(
-        'label' => __('Site Title Color', 'genesis-sample'),
-        'section' => 'header_color_sec',
-        'settings' => 'header_site_description'
-    )));
-    // ************header color section end************
-    
-    
+   
     
     // ************Button color section ************
     $wp_customize->add_section('button_color_sec', array(
@@ -799,7 +1488,7 @@ function colors_panel($wp_customize)
     
     // footer color section start
     $wp_customize->add_section('footer_color_sec', array(
-        'title' => 'Footer ',
+        'title' => 'Footer & Widgets ',
         'panel' => 'some_panel'
     ));
     
@@ -962,3 +1651,404 @@ function colors_panel($wp_customize)
         'settings' => 'form_field_focus_border'
     )));
 }
+//-------------------colors panel end----------------------
+
+
+
+//--------------------- add background image panel------------------
+add_action('customize_register', 'bg_image_panel');
+function bg_image_panel($wp_customize){
+
+
+        $wp_customize->add_panel('bg_image_panels', array(
+        'title' => 'Background Images',
+        'description' => 'This is panel Description',
+        'priority' => 26
+        ));
+
+        //********* body background image section start*********
+        $wp_customize->add_section('body_bg_image_sec', array(
+        'title' => 'Body ',
+        'panel' => 'bg_image_panels'
+        ));
+
+        // body background image
+        $wp_customize->add_setting('body_bg_image', array(
+        'sanitize_callback' => 'esc_url_raw'
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Image_Control ( $wp_customize, 'body_bg_image', array(
+        'description' => __('Select your background image for the body.', 'genesis-sample'),
+        'section' => 'body_bg_image_sec',
+        'settings' => 'body_bg_image'
+        )));
+
+
+
+        // body background repeat
+        $wp_customize->add_setting('body_bg_repeat', array(
+        'default' => 'no-repeat', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'body_bg_repeat', 
+        array(
+        'settings' => 'body_bg_repeat', 
+        'section' => 'body_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'no-repeat' => __( 'No Repeat' ),
+        'repeat-x' => __( 'Repeat x' ),
+        'repeat-y' => __( 'Repeat y' ),
+        'repeat' => __( 'Repeat' ),
+        )
+        )));
+
+        // body background size
+        $wp_customize->add_setting('body_bg_size', array(
+        'default' => 'auto', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'body_bg_size', 
+        array(
+        'settings' => 'body_bg_size', 
+        'section' => 'body_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'auto' => __( 'Auto' ),
+        'cover' => __( 'Cover' ),
+        'contain' => __( 'Contain' ),
+        'unset' => __( 'Unset' ),
+        )
+        )));
+
+
+        // body background attachment
+        $wp_customize->add_setting('body_bg_attachment', array(
+        'default' => 'unset', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'body_bg_attachment', 
+        array(
+        'settings' => 'body_bg_attachment', 
+        'section' => 'body_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'unset' => __( 'Unset' ),
+        'fixed' => __( 'Fixed' ),
+        'local' => __( 'Local' ),
+        'scroll' => __( 'Scroll' ),
+        )
+        )));
+
+        //  body background position
+        $wp_customize->add_setting('body_bg_position', array(
+            'capability' => 'edit_theme_options',
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_control('body_bg_position', array(
+            'label' => 'Background Position',
+            'description' => 'left top, x% y%, xpos ypos (px)',
+            'section' => 'body_bg_image_sec'
+        ));
+
+        //********* body background image section end*********
+
+
+        //********* header background image section start*********
+        $wp_customize->add_section('header_bg_image_sec', array(
+        'title' => 'Header ',
+        'panel' => 'bg_image_panels'
+        ));
+
+        // header background image
+        $wp_customize->add_setting('header_bg_image', array(
+        'sanitize_callback' => 'esc_url_raw'
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Image_Control ( $wp_customize, 'header_bg_image', array(
+        'description' => __('Select your background image for the header.', 'genesis-sample'),
+        'section' => 'header_bg_image_sec',
+        'settings' => 'header_bg_image'
+        )));
+
+
+
+        // header background repeat
+        $wp_customize->add_setting('header_bg_repeat', array(
+        'default' => 'no-repeat', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'header_bg_repeat', 
+        array(
+        'settings' => 'header_bg_repeat', 
+        'section' => 'header_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'no-repeat' => __( 'No Repeat' ),
+        'repeat-x' => __( 'Repeat x' ),
+        'repeat-y' => __( 'Repeat y' ),
+        'repeat' => __( 'Repeat' ),
+        )
+        )));
+
+        // header background size
+        $wp_customize->add_setting('header_bg_size', array(
+        'default' => 'auto', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'header_bg_size', 
+        array(
+        'settings' => 'header_bg_size', 
+        'section' => 'header_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'auto' => __( 'Auto' ),
+        'cover' => __( 'Cover' ),
+        'contain' => __( 'Contain' ),
+        'unset' => __( 'Unset' ),
+        )
+        )));
+
+
+        // header background attachment
+        $wp_customize->add_setting('header_bg_attachment', array(
+        'default' => 'unset', 
+        'type' => 'theme_mod', 
+        'capability' => 'edit_theme_options' 
+        ));
+        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+        'header_bg_attachment', 
+        array(
+        'settings' => 'header_bg_attachment', 
+        'section' => 'header_bg_image_sec', 
+        'type' => 'select',
+        'choices' => array(
+        'unset' => __( 'Unset' ),
+        'fixed' => __( 'Fixed' ),
+        'local' => __( 'Local' ),
+        'scroll' => __( 'Scroll' ),
+        )
+        )));
+
+        //  header background position
+        $wp_customize->add_setting('header_bg_position', array(
+            'capability' => 'edit_theme_options',
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        
+        $wp_customize->add_control('header_bg_position', array(
+            'label' => 'Background Position',
+            'description' => 'left top, x% y%, xpos ypos (px)',
+            'section' => 'header_bg_image_sec'
+        ));
+
+        //********* header background image section end*********
+
+        //********* footer widget background image section start*********
+        $wp_customize->add_section('footer_widget_bg_image_sec', array(
+            'title' => 'Footer Widget ',
+            'panel' => 'bg_image_panels'
+            ));
+
+            // footer widget background image
+            $wp_customize->add_setting('footer_widget_bg_image', array(
+            'sanitize_callback' => 'esc_url_raw'
+            ));
+
+            $wp_customize->add_control(new WP_Customize_Image_Control ( $wp_customize, 'footer_widget_bg_image', array(
+            'description' => __('Select your background image for the footer widget.', 'genesis-sample'),
+            'section' => 'footer_widget_bg_image_sec',
+            'settings' => 'footer_widget_bg_image'
+            )));
+
+
+
+            // footer widget background repeat
+            $wp_customize->add_setting('footer_widget_bg_repeat', array(
+            'default' => 'no-repeat', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_widget_bg_repeat', 
+            array(
+            'settings' => 'footer_widget_bg_repeat', 
+            'section' => 'footer_widget_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'no-repeat' => __( 'No Repeat' ),
+            'repeat-x' => __( 'Repeat x' ),
+            'repeat-y' => __( 'Repeat y' ),
+            'repeat' => __( 'Repeat' ),
+            )
+            )));
+
+            // footer widget background size
+            $wp_customize->add_setting('footer_widget_bg_size', array(
+            'default' => 'auto', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_widget_bg_size', 
+            array(
+            'settings' => 'footer_widget_bg_size', 
+            'section' => 'footer_widget_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'auto' => __( 'Auto' ),
+            'cover' => __( 'Cover' ),
+            'contain' => __( 'Contain' ),
+            'unset' => __( 'Unset' ),
+            )
+            )));
+
+
+            // footer widget background attachment
+            $wp_customize->add_setting('footer_widget_bg_attachment', array(
+            'default' => 'unset', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_widget_bg_attachment', 
+            array(
+            'settings' => 'footer_widget_bg_attachment', 
+            'section' => 'footer_widget_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'unset' => __( 'Unset' ),
+            'fixed' => __( 'Fixed' ),
+            'local' => __( 'Local' ),
+            'scroll' => __( 'Scroll' ),
+            )
+            )));
+
+            //  footer widget background position
+            $wp_customize->add_setting('footer_widget_bg_position', array(
+                'capability' => 'edit_theme_options',
+                'default' => '',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
+            
+            $wp_customize->add_control('footer_widget_bg_position', array(
+                'label' => 'Background Position',
+                'description' => 'left top, x% y%, xpos ypos (px)',
+                'section' => 'footer_widget_bg_image_sec'
+            ));
+
+            //********* footer widget background image section end*********
+
+
+        //********* footer background image section start*********
+        $wp_customize->add_section('footer_bg_image_sec', array(
+            'title' => 'Footer ',
+            'panel' => 'bg_image_panels'
+            ));
+
+            // footer background image
+            $wp_customize->add_setting('footer_bg_image', array(
+            'sanitize_callback' => 'esc_url_raw'
+            ));
+
+            $wp_customize->add_control(new WP_Customize_Image_Control ( $wp_customize, 'footer_bg_image', array(
+            'description' => __('Select your background image for the footer.', 'genesis-sample'),
+            'section' => 'footer_bg_image_sec',
+            'settings' => 'footer_bg_image'
+            )));
+
+
+
+            // footer background repeat
+            $wp_customize->add_setting('footer_bg_repeat', array(
+            'default' => 'no-repeat', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_bg_repeat', 
+            array(
+            'settings' => 'footer_bg_repeat', 
+            'section' => 'footer_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'no-repeat' => __( 'No Repeat' ),
+            'repeat-x' => __( 'Repeat x' ),
+            'repeat-y' => __( 'Repeat y' ),
+            'repeat' => __( 'Repeat' ),
+            )
+            )));
+
+            // footer background size
+            $wp_customize->add_setting('footer_bg_size', array(
+            'default' => 'auto', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_bg_size', 
+            array(
+            'settings' => 'footer_bg_size', 
+            'section' => 'footer_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'auto' => __( 'Auto' ),
+            'cover' => __( 'Cover' ),
+            'contain' => __( 'Contain' ),
+            'unset' => __( 'Unset' ),
+            )
+            )));
+
+
+            // footer background attachment
+            $wp_customize->add_setting('footer_bg_attachment', array(
+            'default' => 'unset', 
+            'type' => 'theme_mod', 
+            'capability' => 'edit_theme_options' 
+            ));
+            $wp_customize->add_control(new WP_Customize_Control($wp_customize, 
+            'footer_bg_attachment', 
+            array(
+            'settings' => 'footer_bg_attachment', 
+            'section' => 'footer_bg_image_sec', 
+            'type' => 'select',
+            'choices' => array(
+            'unset' => __( 'Unset' ),
+            'fixed' => __( 'Fixed' ),
+            'local' => __( 'Local' ),
+            'scroll' => __( 'Scroll' ),
+            )
+            )));
+
+            //  footer background position
+            $wp_customize->add_setting('footer_bg_position', array(
+                'capability' => 'edit_theme_options',
+                'default' => '',
+                'sanitize_callback' => 'sanitize_text_field'
+            ));
+            
+            $wp_customize->add_control('footer_bg_position', array(
+                'label' => 'Background Position',
+                'description' => 'left top, x% y%, xpos ypos (px)',
+                'section' => 'footer_bg_image_sec'
+            ));
+
+            //********* footer background image section end*********
+
+                
+        
+}
+//------------------background image panel end--------------------------
