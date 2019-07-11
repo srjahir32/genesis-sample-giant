@@ -2,19 +2,19 @@
 /**
  * Adds front-end inline styles for the custom Gutenberg color palette.
  *
- * @package Genesis Sample
+ * @package Genesis Giant
  * @author  StudioPress
  * @license GPL-2.0-or-later
  * @link    https://www.studiopress.com/
  */
 
-add_action( 'wp_enqueue_scripts', 'genesis_sample_custom_gutenberg_css' );
+add_action( 'wp_enqueue_scripts', 'genesis_giant_custom_gutenberg_css' );
 /**
  * Outputs front-end inline styles based on colors declared in config/block-editor-settings.php.
  *
  * @since 2.9.0
  */
-function genesis_sample_custom_gutenberg_css() {
+function genesis_giant_custom_gutenberg_css() {
 
 	$block_editor_settings = genesis_get_config( 'block-editor-settings' );
 
@@ -43,14 +43,14 @@ function genesis_sample_custom_gutenberg_css() {
 }
 CSS;
 
-	$css .= genesis_sample_inline_font_sizes();
-	$css .= genesis_sample_inline_color_palette();
+	$css .= genesis_giant_inline_font_sizes();
+	$css .= genesis_giant_inline_color_palette();
 
 	wp_add_inline_style( CHILD_THEME_HANDLE . '-gutenberg', $css );
 
 }
 
-add_action( 'enqueue_block_editor_assets', 'genesis_sample_custom_gutenberg_admin_css' );
+add_action( 'enqueue_block_editor_assets', 'genesis_giant_custom_gutenberg_admin_css' );
 /**
  * Outputs back-end inline styles based on colors declared in config/block-editor-settings.php.
  *
@@ -59,7 +59,7 @@ add_action( 'enqueue_block_editor_assets', 'genesis_sample_custom_gutenberg_admi
  *
  * @since 2.9.0
  */
-function genesis_sample_custom_gutenberg_admin_css() {
+function genesis_giant_custom_gutenberg_admin_css() {
 
 	$block_editor_settings = genesis_get_config( 'block-editor-settings' );
 
@@ -85,7 +85,7 @@ function genesis_sample_custom_gutenberg_admin_css() {
 }
 CSS;
 
-	wp_add_inline_style( 'genesis-sample-gutenberg-fonts', $css );
+	wp_add_inline_style( 'genesis-giant-gutenberg-fonts', $css );
 
 }
 
@@ -96,7 +96,7 @@ CSS;
  *
  * @return string The CSS for editor font sizes if theme support was declared.
  */
-function genesis_sample_inline_font_sizes() {
+function genesis_giant_inline_font_sizes() {
 
 	$css               = '';
 	$editor_font_sizes = get_theme_support( 'editor-font-sizes' );
@@ -124,7 +124,7 @@ CSS;
  *
  * @return string The editor colors CSS if `editor-color-palette` theme support was declared.
  */
-function genesis_sample_inline_color_palette() {
+function genesis_giant_inline_color_palette() {
 
 	$css                   = '';
 	$block_editor_settings = genesis_get_config( 'block-editor-settings' );

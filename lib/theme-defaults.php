@@ -1,16 +1,16 @@
 <?php
 /**
- * Genesis Sample.
+ * Genesis Giant.
  *
- * This file adds the default theme settings to the Genesis Sample Theme.
+ * This file adds the default theme settings to the Genesis Giant Theme.
  *
- * @package Genesis Sample
+ * @package Genesis Giant
  * @author  StudioPress
  * @license GPL-2.0-or-later
  * @link    https://www.studiopress.com/
  */
 
-add_filter( 'genesis_theme_settings_defaults', 'genesis_sample_theme_defaults' );
+add_filter( 'genesis_theme_settings_defaults', 'genesis_giant_theme_defaults' );
 /**
  * Updates theme settings when resetting them at Genesis -> Theme Settings.
  *
@@ -21,7 +21,7 @@ add_filter( 'genesis_theme_settings_defaults', 'genesis_sample_theme_defaults' )
  * @param array $defaults Original theme settings defaults.
  * @return array Modified defaults.
  */
-function genesis_sample_theme_defaults( $defaults ) {
+function genesis_giant_theme_defaults( $defaults ) {
 
 	$args = genesis_get_config( 'child-theme-settings-genesis' );
 
@@ -29,7 +29,7 @@ function genesis_sample_theme_defaults( $defaults ) {
 
 }
 
-add_filter( 'simple_social_default_styles', 'genesis_sample_social_default_styles' );
+add_filter( 'simple_social_default_styles', 'genesis_giant_social_default_styles' );
 /**
  * Set Simple Social Icon defaults.
  *
@@ -38,7 +38,7 @@ add_filter( 'simple_social_default_styles', 'genesis_sample_social_default_style
  * @param array $defaults Social style defaults.
  * @return array Modified social style defaults.
  */
-function genesis_sample_social_default_styles( $defaults ) {
+function genesis_giant_social_default_styles( $defaults ) {
 
 	$args = genesis_get_config( 'simple-social-icons-settings' );
 

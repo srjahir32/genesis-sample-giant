@@ -1,5 +1,5 @@
 /*
-Theme Name: Genesis Sample
+Theme Name: Genesis Giant
 Theme URI: https://demo.studiopress.com/
 Description: This is the sample theme created for the Genesis Framework.
 Author: StudioPress
@@ -14,7 +14,7 @@ Template: genesis
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Text Domain: genesis-sample
+Text Domain: genesis-giant
 */
 
 
@@ -410,7 +410,7 @@ blockquote {
 /* Headings
 --------------------------------------------- */
 
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -453,7 +453,7 @@ h5 {
 
 h6 {
 	font-size: 16px;
-}
+} */
 
 /* Objects
 --------------------------------------------- */
@@ -1171,14 +1171,14 @@ img.alignright,
 --------------------------------------------- */
 
 .title-area {
-	/* float: left; */
+	float: left;
 	padding-bottom: 25px;
 	padding-top: 25px;
 }
 
 .wp-custom-logo .title-area {
 	max-width: 350px;
-	padding-bottom: 5px;
+	padding-bottom: 18px;
 	padding-top: 5px;
 	width: 100%;
 }
@@ -1307,9 +1307,9 @@ img.alignright,
 
 .menu-toggle,
 .sub-menu-toggle {
-	background-color: transparent;
+	background-color: transparent !important;
 	border-width: 0;
-	color: #333;
+	color: #fff ;
 	display: block;
 	margin: 0 auto;
 	overflow: hidden;
@@ -1410,9 +1410,6 @@ img.alignright,
 /* Entry Content
 --------------------------------------------- */
 
-.entry {
-	margin-bottom: 40px;
-}
 
 .entry-content ol,
 .entry-content ul {
@@ -1585,7 +1582,7 @@ p.entry-meta {
 	border-top: 1px solid #eee;
 	background-color: #fff;
 	clear: both;
-	padding: 60px 0;
+	padding: 50px 0 30px;
 }
 
 .footer-widgets .wrap {
@@ -1594,9 +1591,9 @@ p.entry-meta {
 }
 
 .footer-widget-area {
-	margin-bottom: 40px;
-	padding-left: 30px;
-	padding-right: 30px;
+	margin-bottom: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .footer-widget-area:last-child,
@@ -1851,7 +1848,6 @@ p.entry-meta {
 	.archive-description,
 	.author-box,
 	.comment-respond,
-	.entry,
 	.entry-comments,
 	.entry-pings {
 		margin-bottom: 60px;
@@ -1861,7 +1857,7 @@ p.entry-meta {
 	--------------------------------------------- */
 
 	.footer-widgets .wrap {
-		max-width: 1140px;
+		/*max-width: 1140px;*/
 	}
 
 	.footer-widget-area {
@@ -2022,9 +2018,9 @@ header.site-header {
 
 .dashicons,
 .dashicons-before:before {
-	width: 30px;
-	height: 30px;
-	font-size: 31px;
+	width: 30px !important;
+	height: 30px !important;
+	font-size: 31px !important;
 	color: #000;
 }
 
@@ -2038,16 +2034,43 @@ header.site-header {
 }
 
 .menu-toggle:hover {
-	background: unset;
+	background: unset !important;
 }
 
 /* header social widget */
-section.widget.simple-social-icons {
+header section.widget.simple-social-icons {
 	float: right;
 	margin-bottom: 0 !important;
-	padding: 25px 0 0;
+	padding: 21px 0 0;
 }
-
+/* footer */
+footer.site-footer {
+    display: none;
+}
+.footer_logo {
+    /* margin: auto; */
+    /* display: block; */
+    /* float: none; */
+    text-align: center;
+}
+ul.footer_menu, p.copy_right_txt{
+	text-align: center;
+}
+.copy_right_txt{
+    font-size: 13px;
+}
+ul.footer_menu li {
+    display: inline-block;
+    margin: 0 0 10px 20px !important;
+}
+ul.footer_menu li a{
+	text-decoration: none;
+}
+.footer-widget-area .widget.simple-social-icons {
+	display: block;
+	text-align: center;
+	float: none;
+}
 /* grid blog template css */
 
 .grid_blog_full_width h2.entry-title {
@@ -2072,7 +2095,7 @@ section.widget.simple-social-icons {
 }
 
 
-.logo-right {
+/* .logo-right {
 	text-align: right;
 	float: right;
 }
@@ -2088,20 +2111,307 @@ section.widget.simple-social-icons {
 .logo-left {
 	float: left;
 }
+
 .logo-center .title-area {
-    width: 100%;
-    text-align: center;
-    max-width: unset;
-}
+	width: 100%;
+	text-align: center;
+	max-width: unset;
+} */
+
 .nav-primary.nav-center {
-    width: 100%;
-    text-align: center;
+	width: 100%;
+	text-align: center;
 }
+
 nav.nav-primary.nav-right {
-    float: left;
+	float: left;
 }
+
 nav.nav-primary.nav-left {
-    float: right;
+	float: right;
+}
+
+
+
+
+
+/*********************
+  Giant website css 
+*********************/
+a{
+	text-decoration: none;
+}
+h1, h2, h3, h4, h5, h6{
+	margin-top: 0;
+}
+:focus {
+    outline: 0;
+}
+.fcolor {
+	color: #fff;
+}
+.menu-toggle:before {
+    color: #fff;
+}
+.theme_btn {
+	padding: 18px 30px;
+	border-radius: 40px;
+	text-decoration: none;
+	border: 1px solid #f3283a !important;
+}
+
+
+
+.black_btn {
+	color: #ffffff !important;
+	border-color: #ffffff !important;
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0) !important;
+	box-shadow: unset;
+}
+
+.black_btn:hover {
+	background: #f3283a !important;
+	border-color: #f3283a !important;
+	color: #fff !important;
+}
+
+.subtxt {
+	font-family: Montserrat;
+}
+
+/* header */
+/* home page tansparent header */
+
+.home .site-inner {
+    margin-top: 0 !important;
+}
+nav#genesis-nav-primary {
+    float: left;
+    margin-top: 8px;
+    margin-left: 20px;
+}
+.wp-custom-logo .title-area {
+    padding-top: 20px !important;
+}
+
+#simple-social-icons-3 ul li a {
+    font-size: 20px;
+}
+.fixed-header {
+    position: fixed;
+    background: #fff !important;
+    top: 0;
+/*     height: 70px; */
+    width: 100%;
+	z-index: 1;
+}
+.fixed-header img.custom-logo {
+    opacity: 0;
+}
+.fixed-header a.custom-logo-link::before {
+    background: url(https://giant.net/wp/wp-content/uploads/2019/06/GIANT-Logo-Black-1.png);
+    content: "";
+    position: absolute;
+/*     top: 13px; */
+    /* left: 0; */
+    display: block;
+    z-index: 10000;
+    height: 100%;
+    width: 244px;
+	background-repeat: no-repeat;
+}
+/* .fixed-header nav#genesis-nav-primary {
+    margin-top: 0;
+} */
+.fixed-header nav li a span {
+    color: #0d0d0d;
+}
+.fixed-header .menu-toggle::before {
+    color: #000;
+}
+/* .fixed-header section.widget.simple-social-icons {
+    padding: 16px 0 0;
+} */
+.fixed-header #simple-social-icons-4 ul li a {
+    color: #000 !important;
+}
+/* .fixed-header .menu-toggle {
+	margin-top: 5px
+} */
+
+/*  counter section  */
+.themeborder {
+	border: 1px solid #f3283c;
+	width: 33px;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+.tabs-count {
+	padding: 23px 0px 10px;
+	margin-bottom: 0 !important; 
+}
+
+.tabs-count h3 {
+	margin-bottom: 10px;
+}
+
+.tabs-count p {
+	font-size: 14px;
+}
+
+/* Lead Gen / Advertising section */
+.lead_gen_advertising_txt {
+	padding-bottom: 15px;
+}
+
+.right_advertising_txt {
+	padding-left: 2%;
+}
+
+.advertising_txt {
+	padding-right: 2%;
+}
+
+/* partner success section*/
+.Partner_Success h3 {
+	margin-bottom: 15px;
+}
+
+.wpb_text_column.wpb_content_element.partner_success_txt {
+	max-width: 540px;
+	margin: 0 auto;
+}
+
+.partner_success_txt p {
+	padding-bottom: 15px;
+}
+
+/*  What is GIANT section  */
+.giant_section {
+    padding-top: 0 !important;
+}
+.wpb_text_column.establish_global_reach{
+	background-position: top left !important;
+}
+.what_giant_inner_section h5 {
+	font-weight: 500;
+	margin-top: 32px;
+}
+.wpb_text_column.new_leads_text {
+    position: relative;
+    top: -27px;
+	left: 24px;	
+    background-position: top left !important;
+}
+
+/* video section */
+.video_title {
+    font-weight: 300;
+}
+.video_title span {
+	font-weight: 700;
+}
+
+
+/*  Unlimited Agency Packages section  */
+
+.unlimited-agency h1 {
+	font-size: 68px;
+	line-height: 102px;
+	font-weight: 500;
+	padding-bottom: 30px;
+	margin-top: 0;
+}
+
+.unlimited-agency h5 {
+	font-weight: 300;
+}
+
+/***************************
+media query
+***************************/
+@media (min-width: 960px) {
+.home .site-header {
+		background-color: transparent;
+	}
+}
+@media (max-width: 959px) {
+	
+	.your_partner_section .vc_row.wpb_row.vc_row-fluid {
+		margin: 30px;
+	}
+
+	.parent_success_section .vc_column-inner {
+		padding-top: 80px !important;
+		padding-bottom: 90px !important;
+	}
+	section.vc_section.your_partner_section {
+		padding: 60px 0 !important;
+	}
+
+	.your_partner_section {
+		padding: 80px 0 !important;
+	}
+	.giant_inner .vc_column-inner {
+		padding: 40px !important;
+	}
+	.wpb_text_column.new_leads_text {
+		top: 0px;
+		left: 0px;
+	}
+	.wpb_text_column.phones_ringing_text {
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+	.what_giant_inner_section .vc_col-sm-3 {
+		width: 50%;
+		display: inline-block;
+	}
+	.phones_ringing_text .wpb_wrapper, .new_leads_text .wpb_wrapper, .establish_global_reach .wpb_wrapper, .experience_growth_text .wpb_wrapper {
+		max-width: 355px;
+		margin: auto;
+	}
+	h1 {
+		font-size: 34px !important;
+		line-height: 50px !important;
+	}
+}
+@media (max-width:767px){
+	h1 {
+		font-size: 34px !important;
+	}
+	.what_giant_inner_section .vc_col-sm-3 {
+		width: 100%;
+		display: block;
+	}
+	h1 {
+		font-size: 32px !important;
+		line-height: 45px !important;
+	}
+	h2{
+		font-size: 28px !important;
+		line-height: 36px !important;
+	}
+	h3{
+		font-size: 26px !important;
+		line-height: 34px !important;
+	}
+	h5{
+		font-size: 24px !important;
+		line-height: 32px !important;
+	}
+}
+@media (max-width: 380px) {
+	.theme_btn {
+		font-size: 13px;
+		padding: 15px 20px;
+	}
+
+	.parent_success_section .vc_custom_1561527796737 {
+		padding: 50px 25px 65px !important;
+	}
 }
 
 @media only screen and (min-width: 960px) {
@@ -2112,18 +2422,11 @@ nav.nav-primary.nav-left {
 		width: 100% !important;
 	}
 
-	/* .nav-custom .genesis-nav-menu a {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    .nav-custom {
-        clear: both;
-        border-top: 1px solid #eee;
-    } */
+
 }
 
 @media (max-width:1199px) {
-	section.widget.simple-social-icons {
+	header section.widget.simple-social-icons {
 		display: none;
 	}
 }
@@ -2133,24 +2436,30 @@ nav.nav-primary.nav-left {
 		padding-left: 10px;
 	}
 
-	/* header.site-header {
-		position: fixed;
-		width: 100%;
-		z-index: 9999;
-		height: 80px;
-	} */
+
 }
 
 @media (max-width:480px) {
 	.wp-custom-logo .title-area img {
-		width: 60%;
+		width: 80%;
 	}
 
 	.menu-toggle {
-		margin-top: -67px;
+		margin-top: 0;
 	}
 
 	.site-header .menu-toggle::before {
 		top: 4px;
+	}
+	.site-header {
+		padding: 0 15px;
+	}	
+	.fixed-header {
+		display: none;
+	}
+}
+@media (max-width:325px) {
+	.logo-left {
+		width: 230px;
 	}
 }

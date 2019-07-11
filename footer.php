@@ -64,12 +64,18 @@ genesis_markup(
 
 
 
-// echo get_theme_mod('text_setting');
-// 	$fimg = get_theme_mod("footer_logo");
-// 		echo '<div style="margin: 30px;">';
-// 		echo '<img src="' . $fimg . '" alt="" />';
-// 		echo '</div>';
 	
 ?>
+<script>
+jQuery(window).scroll(function(){
+    if (jQuery(window).scrollTop() >= 300) {
+       jQuery('header').addClass('fixed-header');
+    }
+    else {
+       jQuery('header').removeClass('fixed-header');
+    }
+});
+	
+</script>
 
 </html>

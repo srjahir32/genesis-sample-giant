@@ -1,12 +1,12 @@
 <?php
 /**
- * Genesis Sample.
+ * Genesis Giant.
  *
  * A template to force full-width layout, remove breadcrumbs, and remove the page title.
  *
  * Template Name: Blocks
  *
- * @package Genesis Sample
+ * @package Genesis Giant
  * @author  StudioPress
  * @license GPL-2.0-or-later
  * @link    https://www.studiopress.com/

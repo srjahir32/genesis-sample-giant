@@ -1,4 +1,4 @@
-# Genesis Sample Theme Changelog
+# Genesis Giant Theme Changelog
 
 ## [2.10.0] - 2019-05-01
 Requires Genesis 2.10.0+.
@@ -11,7 +11,7 @@ Requires Genesis 2.10.0+.
 * Changed: clarify wording of Customizer color labels.
 * Changed: remove matchHeight script and use CSS flex instead to match heights of WooCommerce product lists.
 * Fixed: WooCommmerce shop pages now use the selected page layout instead of the default site layout on sites using object caching.
-* Fixed: update the `npm run zip` script to prevent an issue with zip decompression for apps such as Path Finder. (npm scripts are available in the version of Genesis Sample on GitHub: https://github.com/studiopress/genesis-sample/).
+* Fixed: update the `npm run zip` script to prevent an issue with zip decompression for apps such as Path Finder. (npm scripts are available in the version of Genesis Giant on GitHub: https://github.com/studiopress/genesis-giant/).
 
 ## [2.9.1] - 2019-03-19
 * Added: Contributing guidelines.
@@ -31,7 +31,7 @@ Requires Genesis 2.9.0+.
 * Changed: Added Customizer colors to the Block Editor color palette.
 * Changed: Use `theme-primary` and `theme-secondary` slugs for Block Editor color palette to prevent possible loss of styling when switching themes. We are now using this convention for new StudioPress theme releases and updates and encourage theme developers to do the same.
 * Changed: Removed gray colors from the Block Editor color palette.
-* Changed: Generate inline styles for the Block Editor from theme supports, reducing manual Block Editor CSS required. See `lib/gutenberg/inline-styles.php` and https://github.com/studiopress/genesis-sample/pull/198.
+* Changed: Generate inline styles for the Block Editor from theme supports, reducing manual Block Editor CSS required. See `lib/gutenberg/inline-styles.php` and https://github.com/studiopress/genesis-giant/pull/198.
 * Changed: The default button block color is now blue and not gray.
 * Changed: Combined all Block Editor config into a single file at `config/block-editor-settings.php`.
 * Changed: Removed the XML sample content file. You can import sample content via One-Click Theme Setup by visiting `/wp-admin/admin.php?page=genesis-getting-started` instead.
@@ -51,7 +51,7 @@ Requires Genesis 2.8.0+.
 * Update: Styling adjustments for buttons, content width, and column blocks.
 * Update: Prevent 'admin' user being created during manual XML demo content import.
 * Update: Remove editor font sizes shortname from Gutenberg font sizes config. (The shortname is no longer used in WordPress.)
-* Tools: Improve `npm run zip` command to create archives that unzip to a 'genesis-sample' folder on Windows.
+* Tools: Improve `npm run zip` command to create archives that unzip to a 'genesis-giant' folder on Windows.
 
 ## [2.7.1] - 2018-12-20
 * Fix: Reinstate normalize.css and update to version 8.0.1.
@@ -67,7 +67,7 @@ Requires Genesis 2.8.0+.
 * Fix: Prevent featured images in Featured Posts widgets appearing at 75px square.
 * Fix: Prevent JavaScript error if wp object is undefined.
 * Fix: Prevent title overlaying custom logo when printing.
-* Tools: Add npm scripts for automation. See https://github.com/studiopress/genesis-sample#npm-scripts.
+* Tools: Add npm scripts for automation. See https://github.com/studiopress/genesis-giant#npm-scripts.
 * Tools: PHPCS and Composer improvements.
 
 ## [2.6.0] - 2018-03-22
@@ -116,10 +116,10 @@ Requires Genesis 2.8.0+.
 * Set localization.
 * Update XML file.
 
-[2.8.0]: https://github.com/copyblogger/genesis-sample/compare/2.7.1...2.8.0
-[2.7.1]: https://github.com/copyblogger/genesis-sample/compare/2.7.0...2.7.1
-[2.7.0]: https://github.com/copyblogger/genesis-sample/compare/2.6.0...2.7.0
-[2.6.0]: https://github.com/copyblogger/genesis-sample/compare/2.3.0...2.6.0
-[2.3.0]: https://github.com/copyblogger/genesis-sample/compare/2.2.4...2.3.0
-[2.2.4]: https://github.com/copyblogger/genesis-sample/compare/2.2.3...2.2.4
-[2.2.3]: https://github.com/copyblogger/genesis-sample/compare/014deb3689323b7bbd4ddbfff4f5f9279a38f741...2.2.3
+[2.8.0]: https://github.com/copyblogger/genesis-giant/compare/2.7.1...2.8.0
+[2.7.1]: https://github.com/copyblogger/genesis-giant/compare/2.7.0...2.7.1
+[2.7.0]: https://github.com/copyblogger/genesis-giant/compare/2.6.0...2.7.0
+[2.6.0]: https://github.com/copyblogger/genesis-giant/compare/2.3.0...2.6.0
+[2.3.0]: https://github.com/copyblogger/genesis-giant/compare/2.2.4...2.3.0
+[2.2.4]: https://github.com/copyblogger/genesis-giant/compare/2.2.3...2.2.4
+[2.2.3]: https://github.com/copyblogger/genesis-giant/compare/014deb3689323b7bbd4ddbfff4f5f9279a38f741...2.2.3
